@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>排序</title>
+    <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js">
+    </script>
+</head>
+<body>
+<label>请选择排序字段</label>
+<select id="sortField">
+    <option value="">——</option>
+    <option value="1">用户id</option>
+    <option value="2">用户姓名</option>
+</select>
+<select id="sortType">
+    <option value="">——</option>
+    <option value="1">降序</option>
+    <option value="2">升序</option>
+</select>
+<input type="button" id="search" value="查询">
+    <table style="padding: 10px;margin: 10px;border: 2px solid #A9C9E2;">
+        <tr>
+            <th>用户id</th>
+            <th>登陆名</th>
+            <th>密码</th>
+            <th>用户姓名</th>
+        </tr>
+        <tbody id="userSort"></tbody></table>
+
+</body>
+
+<script>
+    $(function(){
+        query();
+        $('#search').click(function(){
+            var sortType = $("#sortType").val();
+            var sortField = $("#sortField").val();
+            query(sortType,sortField);
+        });
+    });
+    function query(sortType,sortField){
+        $.ajax({
+            type: "POST",
+            url: "/getUserInfo",
+            data: {sortType:sortType, sortField:sortField},
+            dataType: "json",
+            success: function(data){
+                var html = '';
+                if(data.code == 0){
+                    alert(data.result);
+                }else{
+                    for(var i = 0;i<data.result.length;i++){
+                        html += '<tr><td>'+data.result[i].id+'</td><td>'+data.result[i].loginName+'</td><td>****</td><td>'+data.result[i].name+'</td></tr>';
+                    }
+                    $("#userSort").html(html);
+                }
+               /* $.each(data, function(commentIndex, comment){
+                    html += '<div class="comment"><h6>' + comment['username']
+                        + ':</h6><p class="para"' + comment['content']
+                        + '</p></div>';
+                });*/
+                $('#resText').html(html);
+            }
+        });
+    }
+</script>
+</html>
