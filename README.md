@@ -8,4 +8,4 @@
 -  使用 maven 打包 demo.jar
 -  运行 java -jar demo.jar
  
-访问地址:http://localhost:8080/userInfo.html
+访问地址:http://localhost:8080/sortUser.html
